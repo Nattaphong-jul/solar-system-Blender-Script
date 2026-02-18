@@ -1,5 +1,4 @@
 import bpy
-import random
 import os
 from math import radians
 import math 
