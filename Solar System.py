@@ -84,12 +84,96 @@ def apply_img_texture(target_obj, mat_name, img_path, metallic=0.0, roughness=0.
     
     return myMat
 
-def jupiter():
-    planet = create_sphere("Jupiter", (110,0,0), (139.8))
-    
-    apply_img_texture(target_obj=planet, mat_name="Jupiter", img_path="//texture\\jupiter\\2k_jupiter.jpg", emit_strength=1)
+def reset_cursor():
+    bpy.context.scene.cursor.location = (0, 0, 0)
 
-jupiter()
+def sun(location, size):
+    reset_cursor()
+    planet = create_sphere("Sun", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Sun", img_path="//texture\\sun\\8k_sun.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def mercury(location, size):
+    reset_cursor()
+    planet = create_sphere("Mercury", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Mercury", img_path="//texture\\mercury\\2k_mercury.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def venus(location, size):
+    reset_cursor()
+    planet = create_sphere("Venus", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Venus", img_path="//texture\\venus\\2k_venus_atmosphere.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def earth(location, size):
+    reset_cursor()
+    planet = create_sphere("Earth", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Earth", img_path="//texture\\earth\\2k_earth_daymap.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def mars(location, size):
+    reset_cursor()
+    planet = create_sphere("Mars", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Mars", img_path="//texture\\mars\\2k_mars.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def jupiter(location, size):
+    reset_cursor()
+    planet = create_sphere("Jupiter", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Jupiter", img_path="//texture\\jupiter\\2k_jupiter.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def saturn(location, size):
+    # Create Planet
+    planet = create_sphere("Saturn", location, size)
+    apply_img_texture(planet, "Saturn_Mat", "//texture\\saturn\\2k_saturn.jpg")
+
+    outer_radius = size * 2.3
+    bpy.ops.mesh.primitive_circle_add(radius=outer_radius, fill_type='NGON', location=location) 
+    ring = bpy.context.object
+    ring.name = "Saturn_Ring"
+    
+    
+    bpy.ops.object.mode_set(mode='EDIT')
+    inner_radius = size * 1.2 
+    inset_amount = outer_radius - inner_radius
+    bpy.ops.mesh.inset(thickness=inset_amount)
+    bpy.ops.mesh.delete(type='FACE')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    
+    apply_img_texture(ring, "Saturn_Ring_Mat", "//texture\\saturn\\2k_saturn.jpg", emit_strength=0)
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    planet.select_set(True)
+    ring.select_set(True)
+    bpy.context.view_layer.objects.active = planet
+    bpy.ops.object.join()
+    
+    # Origin Center
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+    return planet
+
+def uranus(location, size):
+    reset_cursor()
+    planet = create_sphere("Uranus", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Uranus", img_path="//texture\\uranus\\2k_uranus.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+def neptune(location, size):
+    reset_cursor()
+    planet = create_sphere("Neptune", location, size)
+    apply_img_texture(target_obj=planet, mat_name="Neptune", img_path="//texture\\neptune\\2k_neptune.jpg", emit_strength=1)
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+
+sun((0, 0, 0), 1392.0)
+mercury((1500, 0, 0), 4.8)
+venus((1550, 0, 0), 12.1)
+earth((1600, 0, 0), 12.7)
+mars((1650, 0, 0), 6.8)
+jupiter((2000, 0, 0), 139.8)
+saturn((2500, 0, 0), 116.5)
+uranus((3000, 0, 0), 50.7)
+neptune((3200, 0, 0), 49.2)
 
 
 def apply_hdri(img_path):
